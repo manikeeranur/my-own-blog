@@ -8,25 +8,25 @@ export const BlogProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        setLoading(true);
-        const data = await getHtmlBlog();
-        setBlogData(data);
-      } catch (error) {
-        setError("Error fetching blog: " + error.message);
-        console.error("Error fetching blog:", error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchBlog = async () => {
+    try {
+      setLoading(true);
+      const data = await getHtmlBlog();
+      setBlogData(data);
+    } catch (error) {
+      setError("Error fetching blog: " + error.message);
+      console.error("Error fetching blog:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchBlog();
   }, []);
 
   return (
-    <BlogContext.Provider value={{ blogData, loading, error }}>
+    <BlogContext.Provider value={{ blogData, loading, error, fetchBlog }}>
       {children}
     </BlogContext.Provider>
   );
